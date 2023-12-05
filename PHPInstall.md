@@ -56,3 +56,4 @@ phpinfo();
 ?>
 ```
 
+I then visited the IP address for my server to make sure everything was working properly.
