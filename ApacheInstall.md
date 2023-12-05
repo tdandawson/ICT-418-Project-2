@@ -44,3 +44,19 @@ cd /var/www/html/
 sudo mv index.html index.html.original
 sudo nano index.html
 ```
+
+I then added the provided text from our notes into the index.html file:
+```
+<html>
+<head>
+<title>My first web page using Apache2</title>
+</head>
+<body>
+
+<h1>Welcome</h1>
+
+<p>Welcome to my web site. I created this site using the Apache2 HTTP server.</p>
+
+</body>
+</html>
+```
