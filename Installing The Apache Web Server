@@ -1,0 +1,23 @@
+# Installing The Apache Web Server 
+
+$ sudo dnf update // standard practice to make sure you're up to date
+
+$ sudo dnf install httpd // command to install apache on Linux Rocky 8
+
+$ sudo httpd -v // check status and version of apache package
+
+// start, enable, and check the status of the HTTPD service
+$ sudo systemctl start httpd
+$ sudo systemctl enable httpd
+$ sudo systemctl status httpd
+
+// Enable firewallD service
+$ sudo firewall-cmd --permanent --add-port=80/tcp
+$ sudo firewall-cmd --permanent --add-port=443/tcp
+$ sudo firewall-cmd --reload
+
+// Create Web Page
+cd /var/www/html/
+sudo mv index.html index.html.original
+sudo nano index.html
+
