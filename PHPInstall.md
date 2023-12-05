@@ -1,7 +1,10 @@
 # Installing and Configuring PHP
 
-// Restart Apache
+## Restart Apache
+
+```
 sudo systemctl restart httpd
+```
 
 // Install EPEL repository on Rocky Linux
 sudo dnf install epel-release
