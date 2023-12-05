@@ -6,15 +6,22 @@
 sudo systemctl restart httpd
 ```
 
-// Install EPEL repository on Rocky Linux
+## Install EPEL repository on Rocky Linux
+
+```
 sudo dnf install epel-release
+```
 
-// Enable remi repository
+## Enable remi repository
+```
 sudo dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+```
 
-// Reset default php module and enbale the latest Remi-PHP module (Remi-9.0)
+## Reset default php module and enbale the latest Remi-PHP module (Remi-9.0)
+```
 sudo dnf module reset php
 sudo dnf module enable php:remi-8.0
+```
 
 // Install PHP 8.0 and common extensions
 sudo dnf install php php-cli php-curl php-mysqlnd php-gd php-opcache php-zip php-intl
