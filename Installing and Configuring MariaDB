@@ -1,0 +1,141 @@
+# Installing and Configuring MariaDB
+
+sudo dnf module list mariadb
+
+// Install MariaDB
+sudo dnf install mariadb-server mariadb
+//this resulted in the error code below
+
+/*
+Error: 
+ Problem 1: cannot install the best candidate for the job
+  - nothing provides libc.so.6(GLIBC_2.34)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libstdc++.so.6(GLIBCXX_3.4.29)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libm.so.6(GLIBC_2.29)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libstdc++.so.6(GLIBCXX_3.4.26)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libcrypt.so.2()(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libcrypt.so.2(XCRYPT_2.0)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+ Problem 2: cannot install the best candidate for the job
+  - nothing provides libc.so.6(GLIBC_2.34)(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libstdc++.so.6(GLIBCXX_3.4.29)(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libm.so.6(GLIBC_2.29)(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libstdc++.so.6(GLIBCXX_3.4.26)(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libcrypt.so.2()(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libcrypt.so.2(XCRYPT_2.0)(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
+(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
+*/
+
+// I went back through and added libraries 
+sudo mkdir /mustafar
+ls -ld /mustafar
+which bash
+sudo mkdir /mustafar/bin
+sudo cp /usr/bin/bash /mustafar/bin
+ldd /usr/bin/bash
+sudo mkdir /mustafar/lib64
+cd /mustafar/lib64
+ls
+sudo cp /lib64/libtinfo.so.6 .
+sudo cp /lib64/libdl.so.2 .
+sudo cp /lib64/libc.so.6 .
+sudo cp /lib64/ld-linux-x86-64.so.2 .
+ls
+
+// Try to install MariaDB again
+sudo dnf install mariadb-server
+// Resulted in a smaller error
+
+/*
+Error: 
+ Problem: cannot install the best candidate for the job
+  - nothing provides libc.so.6(GLIBC_2.34)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libstdc++.so.6(GLIBCXX_3.4.29)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libm.so.6(GLIBC_2.29)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libstdc++.so.6(GLIBCXX_3.4.26)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libcrypt.so.2()(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+  - nothing provides libcrypt.so.2(XCRYPT_2.0)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
+(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
+*/
+
+// Check Libraries for ls and cat
+ldd /usr/bin/ls
+ldd /usr/bin/cat
+
+// Try Installing MariaDB again
+sudo dnf install mariadb-server
+
+// I kept running into the same error message so I resulted in installing with --nobest
+sudo dnf install mariadb-server --nobest
+sudo dnf install mariadb --nobest
+
+// Check status, start, enable, and check status of MariaDB again
+sudo systemctl status mariadb
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+sudo systemctl status mariadb
+
+// Secure MariaDB Server and go through steps
+sudo mysql_secure_installation
+
+// Login and test database
+mysql -u root -p
+show databases;
+
+// Create and Set up Regular User Account
+create user 'webapp'@'localhost' identified by 'XXXXXXX';
+
+// Create Practice Database
+create database linuxrockydb;
+grant all privileges on linuxrockydb.* to 'webapp'@'localhost';
+show databases;
+\q
+
+// Login as Regular User and Create Tables
+mysql -u webapp -p
+show databases;
+use linuxrockydb;
+create table distributions
+    -> (
+    -> id int unsigned not null auto_increment,
+    -> name varchar(150) not null,
+    -> developer varchar(150) not null,
+    -> founded date not null,
+    -> primary key (id)
+    -> );
+
+show tables;
+describe distributions;
+insert into distributions (name, developer, founded) values
+    -> ('Debian', 'The Debian Project', '1993-09-15'),
+    -> ('Ubuntu', 'Canonical Ltd.', '2004-10-20'),
+    -> ('Fedora', 'Fedora Project', '2003-11-06');
+
+select * from distributions;
+\q
+
+// Install PHP and MySQL support
+sudo dnf install php-mysql
+
+//Restart Apache and MariaDB
+sudo systemctl restart httpd
+sudo systemctl restart mariadb
+
+// Create PHP Scripts
+cd /var/www/html
+sudo touch login.php
+sudo chmod 640 login.php
+ls -l
+sudo nano login.php
+
+sudo dnf install -y php php-zip php-intl php-mysqlnd php-dom php-simplexml php-xml php-xmlreader php-curl php-exif php-ftp php-gd php-iconv php-json php-mbstring php-posix php-sockets php-tokenizer
+sudo chown -R apache:apache login.php
+
+ls -l login.php
+
+sudo nano login.php
+sudo nano distros.php
+
+// Testing Syntax
+sudo php -f login.php
+sudo php -f index.php
+sudo php -f distros.php
