@@ -23,19 +23,36 @@ sudo dnf module reset php
 sudo dnf module enable php:remi-8.0
 ```
 
-// Install PHP 8.0 and common extensions
+## Install PHP 8.0 and common extensions
+```
 sudo dnf install php php-cli php-curl php-mysqlnd php-gd php-opcache php-zip php-intl
+```
 
-// Confirm
+## Confirm
+```
 php -v
+```
 
-// Check Install
+## Check Install
+```
 cd /var/www/html
 sudo nano info.php
+```
 
-// I did not have nano installed so I had to install with:
+### I did not have nano installed so I had to install with:
+```
 sudo dnf install nano -y
+```
 
-// Retry
+## Retry
+```
 sudo nano info.php
+```
+
+### I added the provided text from our notes
+```
+<?php
+phpinfo();
+?>
+```
 
