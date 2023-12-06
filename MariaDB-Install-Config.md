@@ -12,7 +12,7 @@ sudo dnf install mariadb-server mariadb
 
 After execting this command, I was met with the error message below:
 
-**Error: 
+**Error: **
  Problem 1: cannot install the best candidate for the job
   - nothing provides libc.so.6(GLIBC_2.34)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
   - nothing provides libstdc++.so.6(GLIBCXX_3.4.29)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
