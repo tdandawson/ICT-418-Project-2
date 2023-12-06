@@ -12,7 +12,7 @@ sudo dnf install mariadb-server mariadb
 
 After execting this command, I was met with the error message below:
 
-**Error: **
+Error: 
  Problem 1: cannot install the best candidate for the job
   - nothing provides libc.so.6(GLIBC_2.34)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
   - nothing provides libstdc++.so.6(GLIBCXX_3.4.29)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
@@ -27,7 +27,7 @@ After execting this command, I was met with the error message below:
   - nothing provides libstdc++.so.6(GLIBCXX_3.4.26)(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
   - nothing provides libcrypt.so.2()(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
   - nothing provides libcrypt.so.2(XCRYPT_2.0)(64bit) needed by MariaDB-client-10.6.16-1.el9.x86_64 from mariadb
-(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)**
+(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
 
 
 After scanning through the error message, I went back through and added libraries like we did in our assignment.
@@ -65,7 +65,7 @@ sudo dnf install mariadb-server
 
 This resulted in another smaller error message:
 
-**Error: 
+Error: 
  Problem: cannot install the best candidate for the job
   - nothing provides libc.so.6(GLIBC_2.34)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
   - nothing provides libstdc++.so.6(GLIBCXX_3.4.29)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
@@ -73,7 +73,7 @@ This resulted in another smaller error message:
   - nothing provides libstdc++.so.6(GLIBCXX_3.4.26)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
   - nothing provides libcrypt.so.2()(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
   - nothing provides libcrypt.so.2(XCRYPT_2.0)(64bit) needed by MariaDB-server-10.6.16-1.el9.x86_64 from mariadb
-(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)**
+(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
 
 
 This made me decide to check the libraries for `ls` and `cat`:
